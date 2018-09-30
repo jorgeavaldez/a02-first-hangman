@@ -1,5 +1,4 @@
 defmodule Hangman.Tally do
-
   defstruct(
     game_state: :initializing,
     turns_left: 7,
@@ -7,5 +6,4 @@ defmodule Hangman.Tally do
     used: [],
     last_guess: nil
   )
-
 end
