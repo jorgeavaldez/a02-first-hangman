@@ -7,8 +7,7 @@ defmodule Hangman.Game do
     new_game = game
     |> Hangman.Game.State.make_move(guess)
     |> check_guess(guess)
-
-    # make sure to check for the win or lose conditions here
+    |> Hangman.Game.State.check_win_loss()
 
     { new_game, tally(new_game) }
   end
