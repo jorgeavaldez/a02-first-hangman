@@ -22,21 +22,29 @@ defmodule Hangman.Game.State do
   end
 
   # guess not found
-  defp locations_of_helper(_guess, _word, nil) do
+  defp locations_of_helper(_guess, _word, nil, _offset) do
     []
   end
 
   # find rest of the occurrences
-  defp locations_of_helper(guess, word, index) do
-    [ index | locations_of(guess, String.split(word, index))]
+  defp locations_of_helper(guess, word, index, offset) do
+    rest_of_word = word
+    |> String.codepoints
+    |> Enum.slice(index..-1)
+    |> List.to_string
+
+    [
+      index + offset |
+      locations_of(guess, %Hangman.Game.State{ word: rest_of_word }, index + offset + 1)
+    ]
   end
 
-  def locations_of(guess, game) do
+  def locations_of(guess, game, offset \\ 0) do
     index = game.word
     |> String.codepoints
     |> Enum.find_index(fn letter -> letter == guess end)
 
-    locations_of_helper(guess, game.word, index)
+    locations_of_helper(guess, game.word, index, offset)
   end
 
   def is_used(guess, game) do

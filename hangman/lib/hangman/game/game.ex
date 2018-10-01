@@ -11,7 +11,6 @@ defmodule Hangman.Game do
     # make sure to check for the win or lose conditions here
 
     { new_game, tally(new_game) }
-    guess
   end
 
   def check_guess(game, guess) do
