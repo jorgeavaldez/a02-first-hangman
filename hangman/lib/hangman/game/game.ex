@@ -1,23 +1,14 @@
 defmodule Hangman.Game do
   defdelegate new_game, to: Hangman.Game.State
 
-  # Initial tally
-  def tally(%Hangman.Game.State{ status: :initializing, turn: 0 } = game) do
-    %Hangman.Tally{
-      letters: game.letters,
-    }
-  end
-
-  def tally(game) do
-    %Hangman.Tally{
-      letters: game.letters
-    }
-  end
+  def tally(game), do: Hangman.Tally.from_game_state(game)
 
   def make_move(game, guess) do
     new_game = game
     |> Hangman.Game.State.make_move(guess)
     |> check_guess(guess)
+
+    # make sure to check for the win or lose conditions here
 
     { new_game, tally(new_game) }
     guess
